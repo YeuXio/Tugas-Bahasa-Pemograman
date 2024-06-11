@@ -1,0 +1,190 @@
+class Mahasiswa:
+    def __init__(self, nama, nim, prodi, nilai):
+        self.nama = nama
+        self.nim = nim
+        self.prodi = prodi
+        self.nilai = nilai
+
+class Barang:
+    def __init__(self, nama, kode, jumlah):
+        self.nama = nama
+        self.kode = kode
+        self.jumlah = jumlah
+
+class Transaksi:
+    def __init__(self, jenis, jumlah):
+        self.jenis = jenis
+        self.jumlah = jumlah
+
+def input_data_mahasiswa(mahasiswa_list):
+    nama = input("Masukkan Nama: ")
+    nim = input("Masukkan NIM: ")
+    prodi = input("Masukkan Prodi: ")
+    nilai = float(input("Masukkan Nilai: "))
+    mahasiswa_list.append(Mahasiswa(nama, nim, prodi, nilai))
+
+def tampilkan_data_mahasiswa(mahasiswa_list):
+    for mahasiswa in mahasiswa_list:
+        print(f"Nama: {mahasiswa.nama}, NIM: {mahasiswa.nim}, Prodi: {mahasiswa.prodi}, Nilai: {mahasiswa.nilai}")
+
+def hitung_rata_rata(mahasiswa_list):
+    total_nilai = sum(mahasiswa.nilai for mahasiswa in mahasiswa_list)
+    rata_rata = total_nilai / len(mahasiswa_list)
+    print(f"Rata-rata Nilai: {rata_rata:.2f}")
+
+def cari_mahasiswa_tertinggi_terendah(mahasiswa_list):
+    if not mahasiswa_list:
+        print("Tidak ada data mahasiswa.")
+        return
+    tertinggi = max(mahasiswa_list, key=lambda m: m.nilai)
+    terendah = min(mahasiswa_list, key=lambda m: m.nilai)
+    print(f"Mahasiswa Nilai Tertinggi: {tertinggi.nama} dengan Nilai {tertinggi.nilai}")
+    print(f"Mahasiswa Nilai Terendah: {terendah.nama} dengan Nilai {terendah.nilai}")
+
+def menu_mahasiswa():
+    mahasiswa_list = []
+    while True:
+        print("\nMenu Data Mahasiswa:")
+        print("1. Input Data Mahasiswa")
+        print("2. Tampilkan Data Mahasiswa")
+        print("3. Hitung Rata-rata Nilai")
+        print("4. Cari Mahasiswa dengan Nilai Tertinggi dan Terendah")
+        print("5. Kembali ke Menu Utama")
+        pilihan = input("Pilih menu: ")
+        
+        if pilihan == '1':
+            input_data_mahasiswa(mahasiswa_list)
+        elif pilihan == '2':
+            tampilkan_data_mahasiswa(mahasiswa_list)
+        elif pilihan == '3':
+            hitung_rata_rata(mahasiswa_list)
+        elif pilihan == '4':
+            cari_mahasiswa_tertinggi_terendah(mahasiswa_list)
+        elif pilihan == '5':
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+def input_data_barang(barang_list):
+    nama = input("Masukkan Nama Barang: ")
+    kode = input("Masukkan Kode Barang: ")
+    jumlah = int(input("Masukkan Jumlah Barang: "))
+    barang_list.append(Barang(nama, kode, jumlah))
+
+def tampilkan_data_barang(barang_list):
+    for barang in barang_list:
+        print(f"Nama Barang: {barang.nama}, Kode: {barang.kode}, Jumlah: {barang.jumlah}")
+
+def cari_barang_berdasarkan_kode(barang_list):
+    kode = input("Masukkan Kode Barang: ")
+    for barang in barang_list:
+        if barang.kode == kode:
+            print(f"Nama Barang: {barang.nama}, Kode: {barang.kode}, Jumlah: {barang.jumlah}")
+            return
+    print("Barang tidak ditemukan.")
+
+def hapus_barang_berdasarkan_kode(barang_list):
+    kode = input("Masukkan Kode Barang yang akan dihapus: ")
+    for barang in barang_list:
+        if barang.kode == kode:
+            barang_list.remove(barang)
+            print("Barang berhasil dihapus.")
+            return
+    print("Barang tidak ditemukan.")
+
+def menu_barang():
+    barang_list = []
+    while True:
+        print("\nMenu Inventaris Barang:")
+        print("1. Input Data Barang")
+        print("2. Tampilkan Semua Barang")
+        print("3. Cari Barang berdasarkan Kode")
+        print("4. Hapus Barang berdasarkan Kode")
+        print("5. Kembali ke Menu Utama")
+        pilihan = input("Pilih menu: ")
+        
+        if pilihan == '1':
+            input_data_barang(barang_list)
+        elif pilihan == '2':
+            tampilkan_data_barang(barang_list)
+        elif pilihan == '3':
+            cari_barang_berdasarkan_kode(barang_list)
+        elif pilihan == '4':
+            hapus_barang_berdasarkan_kode(barang_list)
+        elif pilihan == '5':
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+def input_transaksi(transaksi_list):
+    jenis = input("Masukkan Jenis Transaksi (pemasukan/pengeluaran): ").lower()
+    jumlah = float(input("Masukkan Jumlah Uang: "))
+    transaksi_list.append(Transaksi(jenis, jumlah))
+
+def tampilkan_transaksi(transaksi_list):
+    for transaksi in transaksi_list:
+        print(f"Jenis: {transaksi.jenis.capitalize()}, Jumlah: {transaksi.jumlah}")
+
+def hitung_total_pemasukan(transaksi_list):
+    total_pemasukan = sum(transaksi.jumlah for transaksi in transaksi_list if transaksi.jenis == 'pemasukan')
+    print(f"Total Pemasukan: {total_pemasukan:.2f}")
+
+def hitung_total_pengeluaran(transaksi_list):
+    total_pengeluaran = sum(transaksi.jumlah for transaksi in transaksi_list if transaksi.jenis == 'pengeluaran')
+    print(f"Total Pengeluaran: {total_pengeluaran:.2f}")
+
+def hitung_saldo_akhir(transaksi_list):
+    total_pemasukan = sum(transaksi.jumlah for transaksi in transaksi_list if transaksi.jenis == 'pemasukan')
+    total_pengeluaran = sum(transaksi.jumlah for transaksi in transaksi_list if transaksi.jenis == 'pengeluaran')
+    saldo_akhir = total_pemasukan - total_pengeluaran
+    print(f"Saldo Akhir: {saldo_akhir:.2f}")
+
+def menu_keuangan():
+    transaksi_list = []
+    while True:
+        print("\nMenu Pengelolaan Keuangan Pribadi:")
+        print("1. Input Transaksi")
+        print("2. Tampilkan Semua Transaksi")
+        print("3. Hitung Total Pemasukan")
+        print("4. Hitung Total Pengeluaran")
+        print("5. Hitung Saldo Akhir")
+        print("6. Kembali ke Menu Utama")
+        pilihan = input("Pilih menu: ")
+        
+        if pilihan == '1':
+            input_transaksi(transaksi_list)
+        elif pilihan == '2':
+            tampilkan_transaksi(transaksi_list)
+        elif pilihan == '3':
+            hitung_total_pemasukan(transaksi_list)
+        elif pilihan == '4':
+            hitung_total_pengeluaran(transaksi_list)
+        elif pilihan == '5':
+            hitung_saldo_akhir(transaksi_list)
+        elif pilihan == '6':
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+def menu_utama():
+    while True:
+        print("\nMenu Utama:")
+        print("1. Data Mahasiswa")
+        print("2. Inventaris Barang")
+        print("3. Pengelolaan Keuangan Pribadi")
+        print("4. Keluar")
+        pilihan = input("Pilih menu: ")
+        
+        if pilihan == '1':
+            menu_mahasiswa()
+        elif pilihan == '2':
+            menu_barang()
+        elif pilihan == '3':
+            menu_keuangan()
+        elif pilihan == '4':
+            print("Terima kasih!")
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+menu_utama()
